@@ -1,0 +1,39 @@
+Atualização do dashboard CPGF
+
+O PBIX existente foi preservado; o arquivo deste ambiente não foi editado no
+Power BI Desktop. Use o computador com Power BI Desktop para apontar o relatório
+às tabelas corrigidas, conferir o modelo e salvar uma cópia atualizada.
+
+1. Extraia CPGF_Tabelas_Dimensionais.zip para uma pasta local.
+2. Abra 06_Power_BI/t1_BI.pbix.
+3. Em Transformar dados / Configurações da fonte de dados, atualize os caminhos
+   das consultas para os CSVs extraídos. Se o PBIX não tiver consultas para a
+   nova dimensão, importe Dim_Periodo_Extrato.csv.
+4. Garanta que as colunas de chave tenham o mesmo tipo (preferencialmente número
+   inteiro) na fato e na dimensão correspondente; Valor_Transacao deve ser
+   decimal/moeda e Data_Transacao deve ser data.
+5. Confirme relações 1:N, com filtro da dimensão para a fato:
+   - Dim_Orgao[ID_Orgao] -> Fato_Transacoes[ID_Orgao]
+   - Dim_Portador[ID_Portador] -> Fato_Transacoes[ID_Portador]
+   - Dim_Favorecido[ID_Favorecido] -> Fato_Transacoes[ID_Favorecido]
+   - Dim_Transacao[ID_Tipo_Transacao] -> Fato_Transacoes[ID_Tipo_Transacao]
+   - Dim_Tempo[ID_Data_transacao] -> Fato_Transacoes[ID_Data_transacao]
+   - Dim_Periodo_Extrato[ID_Periodo_Extrato] ->
+     Fato_Transacoes[ID_Periodo_Extrato]
+6. Na Dim_Periodo_Extrato, crie/atualize a hierarquia Ano_Extrato >
+   Mes_Extrato. Mes_Extrato é numérico (1–12), então mantém a ordem cronológica.
+   Use essa hierarquia para analisar todos os gastos por mês do extrato.
+7. Mantenha a hierarquia de órgão: Nome_Orgao_Superior > Nome_Orgao >
+   Nome_Unidade_Gestora. A hierarquia Dim_Tempo continua representando a data
+   efetiva da transação, não o mês do extrato.
+8. Quando uma visualização usar Data_Transacao, considere filtrar
+   Base_Periodo = "Data Transação" para excluir registros sem data efetiva.
+   Para totais mensais que incluam todas as linhas, use Dim_Periodo_Extrato.
+9. Teste drill down/up entre ano e mês e entre órgão superior, órgão e unidade
+   gestora. Confira os filtros por portador, favorecido e tipo de transação.
+10. Salve o resultado como t1_BI_atualizado.pbix e confira que o total sem
+    filtros é R$ 472.675.127,18.
+
+Observação: não altere os CSVs brutos. O membro "Não informado" em
+Dim_Portador e a chave 0 em Dim_Tempo representam valores ausentes; não os
+remova durante a atualização.

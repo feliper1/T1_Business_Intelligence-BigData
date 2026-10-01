@@ -1,0 +1,29 @@
+ETL CPGF - KNIME
+
+Arquivo de fluxo: 03_ETL/ETL_CPGF_2021_2025_Corrigido.knwf
+Imagem do diagrama: workflow.svg (tambem incluída neste pacote)
+
+Para abrir e executar em outro computador:
+1. Extraia o ZIP de ETL e mantenha a estrutura do projeto com as pastas
+   02_Dados_Brutos e 04_Dados_Tratados acessíveis no mesmo workspace KNIME.
+2. Importe/abra o arquivo .knwf no KNIME Analytics Platform.
+3. Execute o workflow completo e confirme que todos os nós terminam sem erro.
+4. Confira se os writers geraram a fato e as dimensões, incluindo
+   Dim_Periodo_Extrato.csv, em 04_Dados_Tratados.
+5. Os nós de escrita sobrescrevem apenas os CSVs tratados; os dados brutos não
+   devem ser editados nem gravados pelo fluxo.
+
+Regras de tratamento:
+- CPF ausente recebe a chave natural NAO_INFORMADO e o rótulo "Não informado".
+- Data Transação ausente continua desconhecida (chave 0); não é preenchida com
+  uma data inventada.
+- Ano Extrato e Mês Extrato formam uma dimensão de período separada
+  (ID_Periodo_Extrato = Ano * 100 + Mês).
+- Base_Periodo identifica "Data Transação" ou "Mês do Extrato".
+
+Validação mínima após executar:
+- Fato_Transacoes.csv: 658.367 linhas de dados.
+- Valor_Transacao total: R$ 472.675.127,18.
+- Dim_Periodo_Extrato.csv: 60 meses, de 2021-01 a 2025-12.
+- Não deve haver chaves estrangeiras vazias; data efetiva desconhecida e
+  portador não informado usam membros explícitos nas dimensões.
