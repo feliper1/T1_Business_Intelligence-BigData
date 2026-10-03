@@ -1,4 +1,4 @@
-"ID_Data_transacao";"ID_Orgao";"ID_Favorecido";"ID_Portador";"ID_Tipo_Transacao";"Valor_Transacao"
+"ID_Data_Transacao";"ID_Orgao";"ID_Favorecido";"ID_Portador";"ID_Tipo_Transacao";"Valor_Transacao"
 20201215;1;1;1;1;89
 20201201;1;2;2;1;800
 20201222;1;3;1;1;62
